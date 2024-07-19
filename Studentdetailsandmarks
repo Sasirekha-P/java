@@ -1,0 +1,28 @@
+CREATE TABLE Student5 (
+    StudentID int PRIMARY KEY,
+    StudentName VARCHAR(30) NOT NULL,
+    Address VARCHAR(50) NOT NULL,
+    email VARCHAR(25),
+    PhoneNo VARCHAR(16),
+    Gender CHAR(8)
+);
+DESC Student5;
+INSERT INTO Student5 VALUES(1,'Sasirekha','20/8,Sankagiri','sasi@gmail.com','678-788-5666','female');
+INSERT INTO Student5 VALUES(2,'Priya','8/9 Salem','priya@gmail.com','890-987-9999','Female');
+INSERT INTO Student5 VALUES(3,'Ram','5/6 Salem','ram@gmail.com','990-3447-9889','Male');
+INSERT INTO Student5 VALUES(4,'Sasi','7/7 Omalur','sasi@gmail.com','780-987-6799','Male');
+select * from Student5;
+
+CREATE TABLE StudentMarks(
+    RegisterNO int PRIMARY KEY,
+    StudentName VARCHAR(30) NOT NULL,
+    Marks int,
+    Grade VARCHAR(4),
+    Percentage VARCHAR(6)
+)
+DESC StudentMarks;
+INSERT INTO StudentMarks VALUES(345,'Sasirekha',467,'A+',79);
+INSERT INTO StudentMarks VALUES(346,'Priya',434,'A',70);
+INSERT INTO StudentMarks VALUES(347,'Ram',421,'B+',65);
+INSERT INTO StudentMarks VALUES(348,'Sasi',400,'B',60);
+select * from StudentMarks;
