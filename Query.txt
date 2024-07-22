@@ -1,0 +1,45 @@
+create table EmployeePersonalDetails1(
+    emp_id INT PRIMARY KEY,
+    empname VARCHAR(30),
+    empaddress VARCHAR(50),
+    department VARCHAR(20),
+    destination VARCHAR(20),
+    emergencyphonenumber VARCHAR(20),
+    personalphonenumber VARCHAR(20)
+);
+desc EmployeePersonalDetails1;
+
+create table EmployeeSalary1(
+    emp_id INT PRIMARY KEY,
+    department VARCHAR(50),
+    hra DECIMAL(10,5),
+    da DECIMAL(10,5),
+    ta DECIMAL(10,5),
+    basic_pay DECIMAL(10,5),
+    total_salary AS (hra+da+ta+basic_pay),
+    FOREIGN KEY(emp_id) REFERENCES EmployeePersonalDetails(emp_id)
+);
+desc EmployeeSalary1;
+
+INSERT INTO EmployeePersonalDetails1 VALUES(101,'sasi','20/4,sankagiri','sales','salem','044-345-0456','987-659-3200');
+INSERT INTO EmployeePersonalDetails1 VALUES(102,'rekha','9/4,osur','marketing','osur','054-645-6456','984-684-3210');
+INSERT INTO EmployeePersonalDetails1 VALUES(103,'priya','14/9,tiruchy','marketing','tiruchy','055-365-0896','985-634-3230');
+INSERT INTO EmployeePersonalDetails1 VALUES(104,'ram','20/6,salem','Manager','salem','044-345-0456','997-676-2210');
+select * from EmployeePersonalDetails1;
+
+INSERT INTO EmployeeSalary1 (emp_id, department, hra, da, ta, basic_pay) VALUES (101, 'sales', 4000.00, 35000.00, 12000.00, 10000.00);
+INSERT INTO EmployeeSalary1 (emp_id, department, hra, da, ta, basic_pay) VALUES (102, 'marketing', 3000.00, 25000.00, 10000.00, 8000.00);
+INSERT INTO EmployeeSalary1 (emp_id, department, hra, da, ta, basic_pay) VALUES (103, 'marketing', 3500.00, 30000.00, 11000.00, 9000.00);
+INSERT INTO EmployeeSalary1 (emp_id, department, hra, da, ta, basic_pay) VALUES (104, 'Manager', 4500.00, 40000.00, 13000.00, 11000.00);
+select * from EmployeeSalary1;
+
+SELECT epd1.emp_id,epd1.empname,epd1.department,es1.total_salary,ROUND((es1.hra / es1.total_salary) * 100, 2) AS hra_percentage,ROUND((es1.da / es1.total_salary) * 100, 2) AS da_percentage,ROUND((es1.ta / es1.total_salary) * 100, 2) AS ta_percentage
+FROM EmployeePersonalDetails1 epd1
+INNER JOIN EmployeeSalary1 es1 ON epd1.emp_id = es1.emp_id
+INNER JOIN (
+        SELECT department,MAX(total_salary) AS max_salary
+        FROM EmployeeSalary1
+        GROUP BY department
+    ) dept_max_salary
+    ON es1.department = dept_max_salary.department
+    AND es1.total_salary = dept_max_salary.max_salary;
